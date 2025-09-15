@@ -1,28 +1,23 @@
-# config.py - Configuration file for Ransomware Detection System
-
 import os
 import logging
 from pathlib import Path
 
 class Config:
     """Configuration settings for the ransomware detection system"""
-    # Update paths for your system
     MONITOR_DIRECTORIES = [
-        "C:\\Users\\YourUsername\\Documents",  # Windows
-        "C:\\Users\\YourUsername\\Desktop",
-        # "/home/username/Documents",          # Linux
+        "C:\\Users\\saiad\\Documents",  # Windows
+        "C:\\Users\\saiad\\Desktop",
     ]
 
-    # Configure email alerts (optional)
-    ALERT_CONFIG = {
-        'email_enabled': True,
-        'email_recipients': ['your-email@domain.com'],
-        'log_alerts': True,
-    }
+    # ALERT_CONFIG = {
+    #     'email_enabled': True,
+    #     'email_recipients': ['your-email@domain.com'],
+    #     'log_alerts': True,
+    # }
 
     # Adjust ML parameters
     ML_CONFIG = {
-        'prediction_threshold': 0.7,  # Adjust sensitivity
+        'prediction_threshold': 0.7,  
         'feature_window_size': 60,    # seconds
         'model_retrain_interval': 3600, # seconds
     }
@@ -44,7 +39,6 @@ class Config:
         os.path.expanduser("~/Documents"),
         os.path.expanduser("~/Desktop"),
         os.path.expanduser("~/Downloads"),
-        # Add more critical directories
     ]
     
     # File extensions to monitor (commonly targeted by ransomware)
@@ -110,7 +104,7 @@ class Config:
         'host': '127.0.0.1',
         'port': 5000,
         'debug': True,
-        'secret_key': 'your-secret-key-here-change-this',
+        # 'secret_key': 'your-secret-key-here-change-this',
     }
 
 # Global configuration instance
