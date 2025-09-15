@@ -1,6 +1,6 @@
-# web_interface/app.py - Web interface for ransomware detection system
+# integrated_app.py - Complete integrated web interface
 
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 import json
 import os
@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import threading
 import time
+import logging
 
 # Add the src directory to the path to import our modules
 current_dir = Path(__file__).parent  # web_interface directory
@@ -16,21 +17,45 @@ project_root = current_dir.parent    # project root directory
 src_dir = project_root / "src"       # src directory
 sys.path.insert(0, str(src_dir))
 
+# Import our modules with error handling
+try:
+    from config import config
+    WEB_HOST = config.WEB_CONFIG['host']
+    WEB_PORT = config.WEB_CONFIG['port']
+    WEB_DEBUG = config.WEB_CONFIG['debug']
+    SECRET_KEY = config.WEB_CONFIG['secret_key']
+    print("✓ Config loaded successfully")
+except ImportError as e:
+    print(f"Warning: Could not import config: {e}")
+    WEB_HOST = '127.0.0.1'
+    WEB_PORT = 5000
+    WEB_DEBUG = True
+    SECRET_KEY = 'your-secret-key-change-this'
 
-from main_detector import RansomwareDetectionSystem
-from config import config
+try:
+    from main_detector import RansomwareDetectionSystem
+    print("✓ Main detector imported successfully")
+    DETECTOR_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: Could not import main detector: {e}")
+    DETECTOR_AVAILABLE = False
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config.WEB_CONFIG['secret_key']
+app.config['SECRET_KEY'] = SECRET_KEY
 
 # Initialize SocketIO for real-time updates
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Global detection system instance
 detection_system = None
+system_status = {
+    'running': False,
+    'error': None,
+    'initialization_progress': 'Not started'
+}
 
 class WebInterface:
-    """Web interface for the ransomware detection system"""
+    """Web interface controller"""
     
     def __init__(self):
         self.last_status_update = None
@@ -44,12 +69,14 @@ class WebInterface:
             self.update_thread = threading.Thread(target=self._update_loop)
             self.update_thread.daemon = True
             self.update_thread.start()
+            print("✓ Background updates started")
     
     def stop_background_updates(self):
         """Stop background updates"""
         self.running = False
         if self.update_thread:
             self.update_thread.join(timeout=5)
+        print("✓ Background updates stopped")
     
     def _update_loop(self):
         """Background loop for sending updates to connected clients"""
@@ -63,10 +90,13 @@ class WebInterface:
                     socketio.emit('status_update', status)
                     
                     # Check for recent alerts
-                    if detection_system.response_orchestrator:
-                        recent_alerts = detection_system.response_orchestrator.response_system.alert_manager.get_recent_alerts(5)
-                        if recent_alerts:
-                            socketio.emit('alert_update', {'alerts': recent_alerts})
+                    if hasattr(detection_system, 'response_orchestrator') and detection_system.response_orchestrator:
+                        try:
+                            recent_alerts = detection_system.response_orchestrator.response_system.alert_manager.get_recent_alerts(5)
+                            if recent_alerts:
+                                socketio.emit('alert_update', {'alerts': recent_alerts})
+                        except Exception as e:
+                            print(f"Error getting alerts: {e}")
                 
                 time.sleep(5)  # Update every 5 seconds
                 
@@ -86,45 +116,79 @@ def dashboard():
 @app.route('/api/status')
 def get_status():
     """Get system status API"""
+    global system_status
+    
+    if not DETECTOR_AVAILABLE:
+        return jsonify({
+            'running': False,
+            'error': 'Detection system not available - import failed',
+            'statistics': {
+                'detections_performed': 0,
+                'alerts_triggered': 0,
+                'models_trained': 0
+            },
+            'uptime_seconds': 0
+        })
+    
     if not detection_system:
-        return jsonify({'error': 'Detection system not initialized'}), 500
+        return jsonify({
+            'running': False,
+            'error': 'Detection system not initialized',
+            'initialization_progress': system_status.get('initialization_progress', 'Not started'),
+            'statistics': {
+                'detections_performed': 0,
+                'alerts_triggered': 0,
+                'models_trained': 0
+            },
+            'uptime_seconds': 0
+        })
     
     try:
         status = detection_system.get_system_status()
+        status['initialization_progress'] = system_status.get('initialization_progress', 'Complete')
         return jsonify(status)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'running': False,
+            'error': str(e),
+            'statistics': {
+                'detections_performed': 0,
+                'alerts_triggered': 0,
+                'models_trained': 0
+            },
+            'uptime_seconds': 0
+        })
 
 @app.route('/api/alerts')
 def get_alerts():
     """Get recent alerts API"""
     try:
-        limit = request.args.get('limit', 50, type=int)
-        
-        if not detection_system or not detection_system.response_orchestrator:
+        if not detection_system:
             return jsonify({'alerts': []})
         
-        alerts = detection_system.response_orchestrator.response_system.alert_manager.get_recent_alerts(limit)
-        return jsonify({'alerts': alerts})
+        if hasattr(detection_system, 'response_orchestrator') and detection_system.response_orchestrator:
+            alerts = detection_system.response_orchestrator.response_system.alert_manager.get_recent_alerts(50)
+            return jsonify({'alerts': alerts})
+        else:
+            return jsonify({'alerts': []})
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"Error getting alerts: {e}")
+        return jsonify({'alerts': [], 'error': str(e)})
 
 @app.route('/api/detection_history')
 def get_detection_history():
     """Get detection history API"""
     try:
-        limit = request.args.get('limit', 100, type=int)
-        
-        if not detection_system or not detection_system.real_time_detector:
+        if not detection_system or not hasattr(detection_system, 'real_time_detector') or not detection_system.real_time_detector:
             return jsonify({'detections': []})
         
-        # Get recent detections from the real-time detector
-        history = detection_system.real_time_detector.detection_history[-limit:]
+        history = detection_system.real_time_detector.detection_history[-100:]
         return jsonify({'detections': history})
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"Error getting detection history: {e}")
+        return jsonify({'detections': [], 'error': str(e)})
 
 @app.route('/api/feature_importance')
 def get_feature_importance():
@@ -137,58 +201,133 @@ def get_feature_importance():
         return jsonify(importance)
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)})
 
 @app.route('/api/manual_detection', methods=['POST'])
 def manual_detection():
     """Trigger manual detection API"""
     try:
+        if not detection_system:
+            return jsonify({'error': 'Detection system not initialized'})
+        
         data = request.get_json()
         time_window = data.get('time_window_minutes', 5)
-        
-        if not detection_system:
-            return jsonify({'error': 'Detection system not initialized'}), 500
         
         result = detection_system.manual_detection(time_window)
         return jsonify(result)
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)})
 
 @app.route('/api/system_control', methods=['POST'])
 def system_control():
     """Control system operations API"""
+    global detection_system, system_status
+    
     try:
         data = request.get_json()
         action = data.get('action')
         
-        global detection_system
+        if not DETECTOR_AVAILABLE:
+            return jsonify({
+                'success': False, 
+                'error': 'Detection system not available - import failed'
+            })
         
         if action == 'start':
-            if not detection_system:
-                detection_system = RansomwareDetectionSystem()
-                detection_system.start()
-                web_interface.start_background_updates()
-            return jsonify({'success': True, 'message': 'System started'})
+            if detection_system and detection_system.running:
+                return jsonify({
+                    'success': False, 
+                    'message': 'System is already running'
+                })
+            
+            # Start system in background thread to avoid blocking
+            def start_system():
+                global detection_system, system_status
+                try:
+                    system_status['initialization_progress'] = 'Creating detection system...'
+                    detection_system = RansomwareDetectionSystem(
+                        model_type='ensemble',
+                        auto_train=True,
+                        enable_response=True
+                    )
+                    
+                    system_status['initialization_progress'] = 'Starting detection system...'
+                    detection_system.start()
+                    
+                    system_status['initialization_progress'] = 'Starting background updates...'
+                    web_interface.start_background_updates()
+                    
+                    system_status['initialization_progress'] = 'Complete'
+                    system_status['error'] = None
+                    
+                except Exception as e:
+                    system_status['error'] = str(e)
+                    system_status['initialization_progress'] = f'Failed: {e}'
+                    print(f"Error starting system: {e}")
+            
+            start_thread = threading.Thread(target=start_system)
+            start_thread.daemon = True
+            start_thread.start()
+            
+            return jsonify({
+                'success': True, 
+                'message': 'System startup initiated - check status for progress'
+            })
         
         elif action == 'stop':
             if detection_system:
-                detection_system.stop()
-                web_interface.stop_background_updates()
-            return jsonify({'success': True, 'message': 'System stopped'})
+                try:
+                    detection_system.stop()
+                    web_interface.stop_background_updates()
+                    system_status['initialization_progress'] = 'Stopped'
+                    return jsonify({'success': True, 'message': 'System stopped'})
+                except Exception as e:
+                    return jsonify({'success': False, 'error': str(e)})
+            else:
+                return jsonify({'success': True, 'message': 'System was not running'})
         
         elif action == 'restart':
+            # Stop first
             if detection_system:
-                detection_system.stop()
-                time.sleep(2)
-                detection_system.start()
-            return jsonify({'success': True, 'message': 'System restarted'})
+                try:
+                    detection_system.stop()
+                    web_interface.stop_background_updates()
+                except Exception as e:
+                    print(f"Error stopping system for restart: {e}")
+            
+            # Wait a moment
+            time.sleep(2)
+            
+            # Start again
+            def restart_system():
+                global detection_system, system_status
+                try:
+                    system_status['initialization_progress'] = 'Restarting...'
+                    detection_system = RansomwareDetectionSystem(
+                        model_type='ensemble',
+                        auto_train=False,  # Skip training on restart
+                        enable_response=True
+                    )
+                    detection_system.start()
+                    web_interface.start_background_updates()
+                    system_status['initialization_progress'] = 'Complete'
+                    system_status['error'] = None
+                except Exception as e:
+                    system_status['error'] = str(e)
+                    system_status['initialization_progress'] = f'Restart failed: {e}'
+            
+            restart_thread = threading.Thread(target=restart_system)
+            restart_thread.daemon = True
+            restart_thread.start()
+            
+            return jsonify({'success': True, 'message': 'System restart initiated'})
         
         else:
-            return jsonify({'error': 'Unknown action'}), 400
+            return jsonify({'success': False, 'error': f'Unknown action: {action}'})
             
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/response_action', methods=['POST'])
 def response_action():
@@ -198,29 +337,47 @@ def response_action():
         action = data.get('action')
         parameters = data.get('parameters', {})
         
-        if not detection_system or not detection_system.response_orchestrator:
-            return jsonify({'error': 'Response system not available'}), 500
+        if not detection_system or not hasattr(detection_system, 'response_orchestrator') or not detection_system.response_orchestrator:
+            return jsonify({'error': 'Response system not available'})
         
         result = detection_system.response_orchestrator.response_system.manual_response_action(action, parameters)
         return jsonify(result)
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)})
 
 # Socket.IO events
 @socketio.on('connect')
 def handle_connect():
     """Handle client connection"""
-    emit('connected', {'message': 'Connected to Ransomware Detection System'})
+    status_msg = 'Connected to Ransomware Detection System'
+    if not DETECTOR_AVAILABLE:
+        status_msg += ' (Detection system not available)'
+    elif not detection_system:
+        status_msg += ' (Detection system not started)'
+    
+    emit('connected', {'message': status_msg})
 
 @socketio.on('request_status')
 def handle_status_request():
     """Handle status request from client"""
     if detection_system:
-        status = detection_system.get_system_status()
-        emit('status_update', status)
+        try:
+            status = detection_system.get_system_status()
+            emit('status_update', status)
+        except Exception as e:
+            emit('status_update', {
+                'running': False, 
+                'error': str(e),
+                'statistics': {'detections_performed': 0, 'alerts_triggered': 0, 'models_trained': 0}
+            })
+    else:
+        emit('status_update', {
+            'running': False, 
+            'error': 'System not initialized',
+            'statistics': {'detections_performed': 0, 'alerts_triggered': 0, 'models_trained': 0}
+        })
 
-# Template creation (since we can't create separate files easily)
 def create_templates():
     """Create HTML templates for the web interface"""
     
@@ -305,7 +462,7 @@ def create_templates():
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -321,6 +478,10 @@ def create_templates():
         
         .status-error {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+        
+        .status-starting {
+            background: linear-gradient(135deg, #ffa726 0%, #ffcc02 100%);
         }
         
         .stats-grid {
@@ -354,6 +515,7 @@ def create_templates():
             gap: 1rem;
             justify-content: center;
             margin: 2rem 0;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -367,6 +529,12 @@ def create_templates():
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            min-width: 120px;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .btn-primary {
@@ -384,7 +552,7 @@ def create_templates():
             color: white;
         }
         
-        .btn:hover {
+        .btn:not(:disabled):hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
@@ -397,7 +565,7 @@ def create_templates():
             margin: 0.5rem 0;
         }
         
-        .alert-high {
+        .alert-high, .alert-critical {
             border-color: #ff6b6b;
             background: rgba(255, 107, 107, 0.1);
         }
@@ -429,6 +597,24 @@ def create_templates():
             color: #666;
         }
         
+        .progress-info {
+            background: rgba(255, 167, 38, 0.1);
+            border: 1px solid rgba(255, 167, 38, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .error-info {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -447,7 +633,7 @@ def create_templates():
 </head>
 <body>
     <div class="header">
-        <h1>[SHIELD] Ransomware Detection System</h1>
+        <h1>Ransomware Detection System</h1>
     </div>
     
     <div class="container">
@@ -459,6 +645,8 @@ def create_templates():
                     STOP
                 </div>
                 <div id="statusText">Checking...</div>
+                <div id="progressInfo" class="progress-info" style="display: none;"></div>
+                <div id="errorInfo" class="error-info" style="display: none;"></div>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div id="uptimeValue" class="stat-value">--</div>
@@ -510,6 +698,7 @@ def create_templates():
             <div class="controls">
                 <button id="startBtn" class="btn btn-success">Start System</button>
                 <button id="stopBtn" class="btn btn-secondary">Stop System</button>
+                <button id="restartBtn" class="btn btn-primary">Restart System</button>
                 <button id="detectBtn" class="btn btn-primary">Manual Detection</button>
                 <button id="refreshBtn" class="btn btn-primary">Refresh Data</button>
             </div>
@@ -523,6 +712,7 @@ def create_templates():
         // Chart instances
         let activityChart;
         let featuresChart;
+        let isSystemStarting = false;
         
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -618,16 +808,45 @@ def create_templates():
         function updateSystemStatus(data) {
             const indicator = document.getElementById('statusIndicator');
             const statusText = document.getElementById('statusText');
+            const progressInfo = document.getElementById('progressInfo');
+            const errorInfo = document.getElementById('errorInfo');
             
+            // Handle progress info
+            if (data.initialization_progress && data.initialization_progress !== 'Complete' && data.initialization_progress !== 'Not started') {
+                progressInfo.textContent = data.initialization_progress;
+                progressInfo.style.display = 'block';
+            } else {
+                progressInfo.style.display = 'none';
+            }
+            
+            // Handle error info
+            if (data.error) {
+                errorInfo.textContent = 'Error: ' + data.error;
+                errorInfo.style.display = 'block';
+            } else {
+                errorInfo.style.display = 'none';
+            }
+            
+            // Update status indicator
             if (data.running) {
                 indicator.className = 'status-indicator status-running';
                 indicator.textContent = 'RUN';
                 statusText.textContent = 'System Running';
+                isSystemStarting = false;
+            } else if (data.initialization_progress && data.initialization_progress.includes('...')) {
+                indicator.className = 'status-indicator status-starting';
+                indicator.textContent = 'INIT';
+                statusText.textContent = 'System Starting...';
+                isSystemStarting = true;
             } else {
                 indicator.className = 'status-indicator status-stopped';
                 indicator.textContent = 'STOP';
-                statusText.textContent = 'System Stopped';
+                statusText.textContent = data.error ? 'System Error' : 'System Stopped';
+                isSystemStarting = false;
             }
+            
+            // Update button states
+            updateButtonStates(data.running, isSystemStarting);
             
             // Update statistics
             const stats = data.statistics || {};
@@ -639,6 +858,19 @@ def create_templates():
                 stats.alerts_triggered || 0;
             document.getElementById('modelsValue').textContent = 
                 stats.models_trained || 0;
+        }
+        
+        // Update button states
+        function updateButtonStates(running, starting) {
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            const detectBtn = document.getElementById('detectBtn');
+            
+            startBtn.disabled = running || starting;
+            stopBtn.disabled = !running && !starting;
+            restartBtn.disabled = starting;
+            detectBtn.disabled = !running;
         }
         
         // Update alerts display
@@ -701,6 +933,10 @@ def create_templates():
                 controlSystem('stop');
             });
             
+            document.getElementById('restartBtn').addEventListener('click', function() {
+                controlSystem('restart');
+            });
+            
             document.getElementById('detectBtn').addEventListener('click', function() {
                 performManualDetection();
             });
@@ -712,6 +948,12 @@ def create_templates():
         
         // Control system
         function controlSystem(action) {
+            const button = document.querySelector(`#${action}Btn`);
+            const originalText = button.textContent;
+            
+            button.disabled = true;
+            button.textContent = 'Working...';
+            
             fetch('/api/system_control', {
                 method: 'POST',
                 headers: {
@@ -723,14 +965,34 @@ def create_templates():
             .then(data => {
                 if (data.success) {
                     console.log(data.message);
-                    setTimeout(loadInitialData, 2000); // Refresh after 2 seconds
+                    // Start checking status more frequently during startup
+                    if (action === 'start' || action === 'restart') {
+                        const checkInterval = setInterval(() => {
+                            loadInitialData();
+                        }, 2000);
+                        
+                        // Stop frequent checking after 2 minutes
+                        setTimeout(() => {
+                            clearInterval(checkInterval);
+                        }, 120000);
+                    } else {
+                        setTimeout(loadInitialData, 2000);
+                    }
                 } else {
                     alert('Error: ' + (data.error || 'Unknown error'));
                 }
             })
             .catch(error => {
                 console.error('Error controlling system:', error);
-                alert('Error controlling system');
+                alert('Error controlling system: ' + error.message);
+            })
+            .finally(() => {
+                // Reset button after a delay
+                setTimeout(() => {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                    loadInitialData(); // Refresh status
+                }, 3000);
             });
         }
         
@@ -738,6 +1000,10 @@ def create_templates():
         function performManualDetection() {
             const timeWindow = prompt('Enter time window in minutes (default: 5):', '5');
             if (!timeWindow) return;
+            
+            const button = document.getElementById('detectBtn');
+            button.disabled = true;
+            button.textContent = 'Analyzing...';
             
             fetch('/api/manual_detection', {
                 method: 'POST',
@@ -755,22 +1021,36 @@ def create_templates():
                     const detected = data.ransomware_detected || false;
                     
                     const message = detected ? 
-                        `[WARNING] THREAT DETECTED! Probability: ${(probability * 100).toFixed(1)}%` :
-                        `[OK] No threats detected. Max probability: ${(probability * 100).toFixed(1)}%`;
+                        `⚠️ THREAT DETECTED! Probability: ${(probability * 100).toFixed(1)}%` :
+                        `✅ No threats detected. Max probability: ${(probability * 100).toFixed(1)}%`;
                     
                     alert(message);
+                    
+                    // Refresh alerts and data
+                    loadInitialData();
                 }
             })
             .catch(error => {
                 console.error('Error performing detection:', error);
-                alert('Error performing manual detection');
+                alert('Error performing manual detection: ' + error.message);
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = 'Manual Detection';
             });
         }
         
-        // Auto-refresh data every 30 seconds
+        // Auto-refresh data every 30 seconds (less frequent when not running)
         setInterval(function() {
             loadInitialData();
         }, 30000);
+        
+        // More frequent updates when system is starting
+        setInterval(function() {
+            if (isSystemStarting) {
+                loadInitialData();
+            }
+        }, 5000);
     </script>
 </body>
 </html>
@@ -779,50 +1059,61 @@ def create_templates():
     # Write with explicit UTF-8 encoding
     with open(templates_dir / 'dashboard.html', 'w', encoding='utf-8') as f:
         f.write(dashboard_html)
-
-def run_web_interface():
-    """Run the web interface"""
-    global detection_system
     
-    print("Starting Ransomware Detection System Web Interface...")
+    print(f"✓ Template created at: {templates_dir / 'dashboard.html'}")
+
+def main():
+    """Run the integrated web interface"""
+    print("Starting Integrated Ransomware Detection Web Interface...")
+    print("=" * 60)
+    
+    # Check system requirements
+    if not DETECTOR_AVAILABLE:
+        print("⚠️  Warning: Detection system modules not available")
+        print("   The web interface will run in limited mode")
+        print("   Check that all dependencies are installed")
+    else:
+        print("✓ Detection system modules available")
     
     # Create templates
     create_templates()
     
-    # Initialize detection system
+    print(f"✓ Web interface starting on http://{WEB_HOST}:{WEB_PORT}")
+    print("✓ Open your browser to access the dashboard")
+    print("=" * 60)
+    
+    if DETECTOR_AVAILABLE:
+        print("Instructions:")
+        print("1. Click 'Start System' to initialize the detection system")
+        print("2. The system will collect data and train models automatically")
+        print("3. Monitor the initialization progress in the status card")
+        print("4. Once running, you can perform manual detections")
+        print("5. Alerts will appear automatically when threats are detected")
+    else:
+        print("Limited Mode:")
+        print("- Web interface is functional but detection system is disabled")
+        print("- Install missing dependencies to enable full functionality")
+    
+    print("=" * 60)
+    
     try:
-        detection_system = RansomwareDetectionSystem(
-            model_type='ensemble',
-            auto_train=True,
-            enable_response=True
-        )
-        
-        # Start the detection system
-        detection_system.start()
-        
-        # Start background updates
-        web_interface.start_background_updates()
-        
-        print(f"Web interface starting on http://{config.WEB_CONFIG['host']}:{config.WEB_CONFIG['port']}")
-        print("Open your browser to access the dashboard")
-        
         # Run the Flask app with SocketIO
         socketio.run(
             app, 
-            host=config.WEB_CONFIG['host'], 
-            port=config.WEB_CONFIG['port'],
-            debug=config.WEB_CONFIG['debug']
+            host=WEB_HOST, 
+            port=WEB_PORT,
+            debug=WEB_DEBUG
         )
-        
     except KeyboardInterrupt:
         print("\nShutting down web interface...")
-    except Exception as e:
-        print(f"Error starting web interface: {e}")
-    finally:
-        # Cleanup
         if detection_system:
+            print("Stopping detection system...")
             detection_system.stop()
         web_interface.stop_background_updates()
+    except Exception as e:
+        print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
-    run_web_interface()
+    main()

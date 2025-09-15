@@ -117,19 +117,27 @@ class ProcessMonitor:
         proc_exe = proc_info.get('exe', '')
         cmdline = proc_info.get('cmdline', [])
         
+        # Fix: Handle cmdline properly - it might be None or a string
+        if cmdline is None:
+            cmdline_str = ''
+        elif isinstance(cmdline, list):
+            cmdline_str = ' '.join(str(arg) for arg in cmdline)
+        else:
+            cmdline_str = str(cmdline)
+        
         process_data = {
             'timestamp': datetime.now().isoformat(),
             'pid': proc_info['pid'],
             'name': proc_name,
             'exe': proc_exe,
-            'cmdline': ' '.join(cmdline) if cmdline else '',
+            'cmdline': cmdline_str,
             'create_time': proc_info.get('create_time', 0)
         }
         
         self.data_collector.add_process_event(process_data)
         
         # Check for suspicious processes
-        if proc_name in config.SUSPICIOUS_PROCESS_NAMES:
+        if any(susp.lower() in proc_name for susp in config.SUSPICIOUS_PROCESS_NAMES):
             self.logger.warning(f"Suspicious process detected: {proc_name}")
             self.data_collector.add_alert({
                 'type': 'suspicious_process',
@@ -140,10 +148,9 @@ class ProcessMonitor:
             })
         
         # Check for suspicious command line arguments
-        cmdline_str = ' '.join(cmdline).lower()
         suspicious_args = ['vssadmin delete shadows', 'cipher /w', 'bcdedit /set', 'wbadmin delete catalog']
         for suspicious_arg in suspicious_args:
-            if suspicious_arg in cmdline_str:
+            if suspicious_arg in cmdline_str.lower():
                 self.logger.warning(f"Suspicious command line detected: {cmdline_str}")
                 self.data_collector.add_alert({
                     'type': 'suspicious_command',

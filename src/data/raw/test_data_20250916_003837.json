@@ -1,0 +1,1526 @@
+{
+  "file_events": [
+    {
+      "timestamp": "2025-09-15T23:38:37.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_0.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:38:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_1.encrypted",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:38:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_2.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_3.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_4.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:27.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_5.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_6.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:47.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_7.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:39:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_8.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:07.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_9.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_10.encrypted",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_11.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:37.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_12.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_13.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:40:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_14.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_15.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_16.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:27.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_17.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:37.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_18.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:47.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_19.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:41:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_20.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_21.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_22.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_23.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_24.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:47.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_25.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:42:57.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_26.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:07.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_27.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_28.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:27.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_29.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:37.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_30.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_31.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:43:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_32.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:07.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_33.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_34.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:27.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_35.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:37.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_36.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_37.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:44:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_38.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_39.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_40.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_41.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:37.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_42.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_43.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:45:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_44.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_45.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_46.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_47.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_48.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:47.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_49.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:46:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_50.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_51.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_52.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_53.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_54.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:47.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_55.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:47:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_56.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_57.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_58.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:27.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_59.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:37.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_60.encrypted",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_61.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:48:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_62.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_63.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:17.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_64.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:27.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_65.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_66.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:47.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_67.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:49:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_68.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:07.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_69.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_70.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_71.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_72.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_73.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:50:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_74.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_75.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:17.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_76.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:27.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_77.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:37.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_78.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:47.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_79.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:51:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_80.locked",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_81.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_82.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:27.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_83.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:37.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_84.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:47.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_85.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:52:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_86.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_87.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:17.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_88.doc",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:27.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_89.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:37.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_90.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:47.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_91.crypto",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:53:57.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_92.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:07.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_93.txt",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:17.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_94.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:27.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_95.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:37.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_96.jpg",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:47.886830",
+      "event_type": "deleted",
+      "src_path": "/test/path/file_97.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:54:57.886830",
+      "event_type": "modified",
+      "src_path": "/test/path/file_98.pdf",
+      "is_directory": false
+    },
+    {
+      "timestamp": "2025-09-15T23:55:07.886830",
+      "event_type": "created",
+      "src_path": "/test/path/file_99.pdf",
+      "is_directory": false
+    }
+  ],
+  "process_events": [
+    {
+      "timestamp": "2025-09-15T23:38:37.886830",
+      "pid": 1000,
+      "name": "cipher.exe",
+      "exe": "C:\\Windows\\System32\\bcdedit.exe",
+      "cmdline": "vssadmin delete shadows /all /quiet",
+      "create_time": 1757959717.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:38:57.886830",
+      "pid": 1001,
+      "name": "vssadmin.exe",
+      "exe": "C:\\Windows\\System32\\cipher.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959737.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:39:17.886830",
+      "pid": 1002,
+      "name": "vssadmin.exe",
+      "exe": "C:\\Windows\\System32\\vssadmin.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959757.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:39:37.886830",
+      "pid": 1003,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959777.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:39:57.886830",
+      "pid": 1004,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959797.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:40:17.886830",
+      "pid": 1005,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959817.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:40:37.886830",
+      "pid": 1006,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959837.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:40:57.886830",
+      "pid": 1007,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959857.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:41:17.886830",
+      "pid": 1008,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959877.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:41:37.886830",
+      "pid": 1009,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959897.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:41:57.886830",
+      "pid": 1010,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959917.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:42:17.886830",
+      "pid": 1011,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959937.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:42:37.886830",
+      "pid": 1012,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959957.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:42:57.886830",
+      "pid": 1013,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959977.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:43:17.886830",
+      "pid": 1014,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757959997.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:43:37.886830",
+      "pid": 1015,
+      "name": "vssadmin.exe",
+      "exe": "C:\\Windows\\System32\\vssadmin.exe",
+      "cmdline": "vssadmin delete shadows /all /quiet",
+      "create_time": 1757960017.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:43:57.886830",
+      "pid": 1016,
+      "name": "bcdedit.exe",
+      "exe": "C:\\Windows\\System32\\vssadmin.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960037.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:44:17.886830",
+      "pid": 1017,
+      "name": "bcdedit.exe",
+      "exe": "C:\\Windows\\System32\\vssadmin.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960057.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:44:37.886830",
+      "pid": 1018,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960077.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:44:57.886830",
+      "pid": 1019,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960097.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:45:17.886830",
+      "pid": 1020,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960117.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:45:37.886830",
+      "pid": 1021,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960137.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:45:57.886830",
+      "pid": 1022,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960157.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:46:17.886830",
+      "pid": 1023,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960177.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:46:37.886830",
+      "pid": 1024,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960197.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:46:57.886830",
+      "pid": 1025,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960217.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:47:17.886830",
+      "pid": 1026,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960237.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:47:37.886830",
+      "pid": 1027,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960257.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:47:57.886830",
+      "pid": 1028,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960277.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:48:17.886830",
+      "pid": 1029,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960297.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:48:37.886830",
+      "pid": 1030,
+      "name": "cipher.exe",
+      "exe": "C:\\Windows\\System32\\bcdedit.exe",
+      "cmdline": "vssadmin delete shadows /all /quiet",
+      "create_time": 1757960317.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:48:57.886830",
+      "pid": 1031,
+      "name": "vssadmin.exe",
+      "exe": "C:\\Windows\\System32\\cipher.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960337.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:49:17.886830",
+      "pid": 1032,
+      "name": "cipher.exe",
+      "exe": "C:\\Windows\\System32\\bcdedit.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960357.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:49:37.886830",
+      "pid": 1033,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960377.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:49:57.886830",
+      "pid": 1034,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960397.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:50:17.886830",
+      "pid": 1035,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960417.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:50:37.886830",
+      "pid": 1036,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960437.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:50:57.886830",
+      "pid": 1037,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960457.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:51:17.886830",
+      "pid": 1038,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960477.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:51:37.886830",
+      "pid": 1039,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960497.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:51:57.886830",
+      "pid": 1040,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960517.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:52:17.886830",
+      "pid": 1041,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\explorer.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960537.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:52:37.886830",
+      "pid": 1042,
+      "name": "explorer.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960557.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:52:57.886830",
+      "pid": 1043,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960577.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:53:17.886830",
+      "pid": 1044,
+      "name": "notepad.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960597.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:53:37.886830",
+      "pid": 1045,
+      "name": "vssadmin.exe",
+      "exe": "C:\\Windows\\System32\\bcdedit.exe",
+      "cmdline": "vssadmin delete shadows /all /quiet",
+      "create_time": 1757960617.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:53:57.886830",
+      "pid": 1046,
+      "name": "cipher.exe",
+      "exe": "C:\\Windows\\System32\\cipher.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960637.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:54:17.886830",
+      "pid": 1047,
+      "name": "cipher.exe",
+      "exe": "C:\\Windows\\System32\\vssadmin.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960657.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:54:37.886830",
+      "pid": 1048,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\notepad.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960677.88683
+    },
+    {
+      "timestamp": "2025-09-15T23:54:57.886830",
+      "pid": 1049,
+      "name": "chrome.exe",
+      "exe": "C:\\Windows\\System32\\chrome.exe",
+      "cmdline": "normal operation",
+      "create_time": 1757960697.88683
+    }
+  ],
+  "system_metrics": [
+    {
+      "timestamp": "2025-09-15T23:38:37.886830",
+      "cpu_percent": 71,
+      "memory_percent": 42,
+      "disk_usage": {
+        "C:": 77
+      },
+      "network_io": {
+        "bytes_sent": 14079,
+        "bytes_recv": 3529
+      },
+      "disk_io": {
+        "read_bytes": 913039,
+        "write_bytes": 1094370
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:40:37.886830",
+      "cpu_percent": 40,
+      "memory_percent": 22,
+      "disk_usage": {
+        "C:": 75
+      },
+      "network_io": {
+        "bytes_sent": 35791,
+        "bytes_recv": 2558
+      },
+      "disk_io": {
+        "read_bytes": 424574,
+        "write_bytes": 1017446
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:42:37.886830",
+      "cpu_percent": 31,
+      "memory_percent": 40,
+      "disk_usage": {
+        "C:": 54
+      },
+      "network_io": {
+        "bytes_sent": 31850,
+        "bytes_recv": 24445
+      },
+      "disk_io": {
+        "read_bytes": 450383,
+        "write_bytes": 1896795
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:44:37.886830",
+      "cpu_percent": 79,
+      "memory_percent": 56,
+      "disk_usage": {
+        "C:": 40
+      },
+      "network_io": {
+        "bytes_sent": 15234,
+        "bytes_recv": 52008
+      },
+      "disk_io": {
+        "read_bytes": 784678,
+        "write_bytes": 22011
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:46:37.886830",
+      "cpu_percent": 14,
+      "memory_percent": 48,
+      "disk_usage": {
+        "C:": 50
+      },
+      "network_io": {
+        "bytes_sent": 21896,
+        "bytes_recv": 95308
+      },
+      "disk_io": {
+        "read_bytes": 79016,
+        "write_bytes": 350396
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:48:37.886830",
+      "cpu_percent": 75,
+      "memory_percent": 60,
+      "disk_usage": {
+        "C:": 48
+      },
+      "network_io": {
+        "bytes_sent": 8748,
+        "bytes_recv": 25238
+      },
+      "disk_io": {
+        "read_bytes": 533417,
+        "write_bytes": 918624
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:50:37.886830",
+      "cpu_percent": 22,
+      "memory_percent": 33,
+      "disk_usage": {
+        "C:": 45
+      },
+      "network_io": {
+        "bytes_sent": 24351,
+        "bytes_recv": 48276
+      },
+      "disk_io": {
+        "read_bytes": 721920,
+        "write_bytes": 1438691
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:52:37.886830",
+      "cpu_percent": 38,
+      "memory_percent": 29,
+      "disk_usage": {
+        "C:": 50
+      },
+      "network_io": {
+        "bytes_sent": 18064,
+        "bytes_recv": 20590
+      },
+      "disk_io": {
+        "read_bytes": 462334,
+        "write_bytes": 45580
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:54:37.886830",
+      "cpu_percent": 65,
+      "memory_percent": 22,
+      "disk_usage": {
+        "C:": 43
+      },
+      "network_io": {
+        "bytes_sent": 41431,
+        "bytes_recv": 2137
+      },
+      "disk_io": {
+        "read_bytes": 463635,
+        "write_bytes": 344317
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:56:37.886830",
+      "cpu_percent": 43,
+      "memory_percent": 42,
+      "disk_usage": {
+        "C:": 57
+      },
+      "network_io": {
+        "bytes_sent": 20201,
+        "bytes_recv": 47090
+      },
+      "disk_io": {
+        "read_bytes": 660894,
+        "write_bytes": 232034
+      }
+    },
+    {
+      "timestamp": "2025-09-15T23:58:37.886830",
+      "cpu_percent": 12,
+      "memory_percent": 61,
+      "disk_usage": {
+        "C:": 64
+      },
+      "network_io": {
+        "bytes_sent": 45287,
+        "bytes_recv": 97504
+      },
+      "disk_io": {
+        "read_bytes": 633536,
+        "write_bytes": 55569
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:00:37.886830",
+      "cpu_percent": 73,
+      "memory_percent": 20,
+      "disk_usage": {
+        "C:": 58
+      },
+      "network_io": {
+        "bytes_sent": 41941,
+        "bytes_recv": 56467
+      },
+      "disk_io": {
+        "read_bytes": 948454,
+        "write_bytes": 970060
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:02:37.886830",
+      "cpu_percent": 30,
+      "memory_percent": 33,
+      "disk_usage": {
+        "C:": 72
+      },
+      "network_io": {
+        "bytes_sent": 11365,
+        "bytes_recv": 7496
+      },
+      "disk_io": {
+        "read_bytes": 45458,
+        "write_bytes": 1326284
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:04:37.886830",
+      "cpu_percent": 13,
+      "memory_percent": 52,
+      "disk_usage": {
+        "C:": 52
+      },
+      "network_io": {
+        "bytes_sent": 6921,
+        "bytes_recv": 20800
+      },
+      "disk_io": {
+        "read_bytes": 425135,
+        "write_bytes": 1456198
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:06:37.886830",
+      "cpu_percent": 44,
+      "memory_percent": 50,
+      "disk_usage": {
+        "C:": 45
+      },
+      "network_io": {
+        "bytes_sent": 5336,
+        "bytes_recv": 37865
+      },
+      "disk_io": {
+        "read_bytes": 165924,
+        "write_bytes": 1405171
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:08:37.886830",
+      "cpu_percent": 56,
+      "memory_percent": 37,
+      "disk_usage": {
+        "C:": 73
+      },
+      "network_io": {
+        "bytes_sent": 29001,
+        "bytes_recv": 33733
+      },
+      "disk_io": {
+        "read_bytes": 903513,
+        "write_bytes": 1547825
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:10:37.886830",
+      "cpu_percent": 10,
+      "memory_percent": 65,
+      "disk_usage": {
+        "C:": 50
+      },
+      "network_io": {
+        "bytes_sent": 22245,
+        "bytes_recv": 12547
+      },
+      "disk_io": {
+        "read_bytes": 275003,
+        "write_bytes": 842095
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:12:37.886830",
+      "cpu_percent": 73,
+      "memory_percent": 25,
+      "disk_usage": {
+        "C:": 50
+      },
+      "network_io": {
+        "bytes_sent": 16589,
+        "bytes_recv": 64825
+      },
+      "disk_io": {
+        "read_bytes": 889963,
+        "write_bytes": 130928
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:14:37.886830",
+      "cpu_percent": 44,
+      "memory_percent": 54,
+      "disk_usage": {
+        "C:": 76
+      },
+      "network_io": {
+        "bytes_sent": 37702,
+        "bytes_recv": 9073
+      },
+      "disk_io": {
+        "read_bytes": 972534,
+        "write_bytes": 1257924
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:16:37.886830",
+      "cpu_percent": 50,
+      "memory_percent": 38,
+      "disk_usage": {
+        "C:": 55
+      },
+      "network_io": {
+        "bytes_sent": 3528,
+        "bytes_recv": 77029
+      },
+      "disk_io": {
+        "read_bytes": 935052,
+        "write_bytes": 1946334
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:18:37.886830",
+      "cpu_percent": 74,
+      "memory_percent": 53,
+      "disk_usage": {
+        "C:": 62
+      },
+      "network_io": {
+        "bytes_sent": 10850,
+        "bytes_recv": 14583
+      },
+      "disk_io": {
+        "read_bytes": 604321,
+        "write_bytes": 1389837
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:20:37.886830",
+      "cpu_percent": 61,
+      "memory_percent": 34,
+      "disk_usage": {
+        "C:": 48
+      },
+      "network_io": {
+        "bytes_sent": 48323,
+        "bytes_recv": 80427
+      },
+      "disk_io": {
+        "read_bytes": 446353,
+        "write_bytes": 244207
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:22:37.886830",
+      "cpu_percent": 72,
+      "memory_percent": 39,
+      "disk_usage": {
+        "C:": 51
+      },
+      "network_io": {
+        "bytes_sent": 5085,
+        "bytes_recv": 6410
+      },
+      "disk_io": {
+        "read_bytes": 572489,
+        "write_bytes": 1067415
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:24:37.886830",
+      "cpu_percent": 55,
+      "memory_percent": 47,
+      "disk_usage": {
+        "C:": 59
+      },
+      "network_io": {
+        "bytes_sent": 19483,
+        "bytes_recv": 46828
+      },
+      "disk_io": {
+        "read_bytes": 907268,
+        "write_bytes": 1544289
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:26:37.886830",
+      "cpu_percent": 31,
+      "memory_percent": 53,
+      "disk_usage": {
+        "C:": 60
+      },
+      "network_io": {
+        "bytes_sent": 13484,
+        "bytes_recv": 64404
+      },
+      "disk_io": {
+        "read_bytes": 672827,
+        "write_bytes": 1549142
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:28:37.886830",
+      "cpu_percent": 63,
+      "memory_percent": 20,
+      "disk_usage": {
+        "C:": 75
+      },
+      "network_io": {
+        "bytes_sent": 31824,
+        "bytes_recv": 82499
+      },
+      "disk_io": {
+        "read_bytes": 132673,
+        "write_bytes": 1104092
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:30:37.886830",
+      "cpu_percent": 75,
+      "memory_percent": 52,
+      "disk_usage": {
+        "C:": 79
+      },
+      "network_io": {
+        "bytes_sent": 4647,
+        "bytes_recv": 8600
+      },
+      "disk_io": {
+        "read_bytes": 389126,
+        "write_bytes": 1452206
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:32:37.886830",
+      "cpu_percent": 57,
+      "memory_percent": 25,
+      "disk_usage": {
+        "C:": 72
+      },
+      "network_io": {
+        "bytes_sent": 29833,
+        "bytes_recv": 55126
+      },
+      "disk_io": {
+        "read_bytes": 624140,
+        "write_bytes": 772483
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:34:37.886830",
+      "cpu_percent": 65,
+      "memory_percent": 60,
+      "disk_usage": {
+        "C:": 67
+      },
+      "network_io": {
+        "bytes_sent": 27759,
+        "bytes_recv": 68713
+      },
+      "disk_io": {
+        "read_bytes": 337609,
+        "write_bytes": 475976
+      }
+    },
+    {
+      "timestamp": "2025-09-16T00:36:37.886830",
+      "cpu_percent": 38,
+      "memory_percent": 39,
+      "disk_usage": {
+        "C:": 41
+      },
+      "network_io": {
+        "bytes_sent": 9031,
+        "bytes_recv": 97985
+      },
+      "disk_io": {
+        "read_bytes": 905957,
+        "write_bytes": 348021
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "timestamp": "2025-09-15T23:38:37.886830",
+      "type": "suspicious_file",
+      "severity": "LOW",
+      "details": "Test alert 0"
+    },
+    {
+      "timestamp": "2025-09-15T23:48:37.886830",
+      "type": "suspicious_file",
+      "severity": "MEDIUM",
+      "details": "Test alert 1"
+    },
+    {
+      "timestamp": "2025-09-15T23:58:37.886830",
+      "type": "suspicious_file",
+      "severity": "LOW",
+      "details": "Test alert 2"
+    },
+    {
+      "timestamp": "2025-09-16T00:08:37.886830",
+      "type": "suspicious_file",
+      "severity": "MEDIUM",
+      "details": "Test alert 3"
+    },
+    {
+      "timestamp": "2025-09-16T00:18:37.886830",
+      "type": "suspicious_file",
+      "severity": "LOW",
+      "details": "Test alert 4"
+    }
+  ],
+  "statistics": {
+    "file_events": 100,
+    "process_events": 50,
+    "system_metrics": 30,
+    "alerts": 5
+  }
+}

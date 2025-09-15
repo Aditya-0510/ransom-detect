@@ -113,3 +113,10 @@ desktop.ini
 # quarantine/
 # backups/
 # session_statistics.json
+
+
+run_detector.py
+create_test_data.py
+comprehensive_fix.py
+
+web_interface/app.py

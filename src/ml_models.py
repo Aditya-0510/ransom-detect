@@ -114,7 +114,7 @@ class RansomwareMLDetector:
     
     def prepare_data(self, X: pd.DataFrame, y: np.ndarray = None, 
                     test_size: float = None) -> Tuple:
-        """Prepare data for training/testing"""
+        """Prepare data for training/testing with small dataset handling"""
         if test_size is None:
             test_size = config.ML_CONFIG['test_size']
         
@@ -130,14 +130,30 @@ class RansomwareMLDetector:
         # Store feature names
         self.feature_names = list(X.columns)
         
-        # Split data if labels are provided
+        # Split data if labels are provided and we have enough samples
         if y is not None:
-            X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=test_size, 
-                random_state=config.ML_CONFIG['random_state'],
-                stratify=y
-            )
-            return X_train, X_test, y_train, y_test
+            n_samples = len(X)
+            
+            # Need at least 5 samples for proper train/test split
+            if n_samples < 5:
+                self.logger.warning(f"Only {n_samples} samples available. Using all data for training (no test split).")
+                return X, None, y, None
+            
+            # For very small datasets, use smaller test size
+            if n_samples < 20:
+                test_size = min(test_size, 0.3)  # Use max 30% for testing
+                self.logger.info(f"Small dataset ({n_samples} samples). Using test_size={test_size}")
+            
+            try:
+                X_train, X_test, y_train, y_test = train_test_split(
+                    X, y, test_size=test_size, 
+                    random_state=config.ML_CONFIG['random_state'],
+                    stratify=y if len(np.unique(y)) > 1 and np.min(np.bincount(y)) >= 2 else None
+                )
+                return X_train, X_test, y_train, y_test
+            except ValueError as e:
+                self.logger.warning(f"Could not split data properly: {e}. Using all data for training.")
+                return X, None, y, None
         else:
             return X, None, None, None
     
@@ -209,32 +225,54 @@ class RansomwareMLDetector:
     
     def train_model(self, X: pd.DataFrame, y: np.ndarray, 
                    validate: bool = True) -> Dict[str, Any]:
-        """Train the ransomware detection model"""
+        """Train the ransomware detection model with small dataset handling"""
         
         self.logger.info("Starting model training...")
+        self.logger.info(f"Training data shape: {X.shape}")
+        self.logger.info(f"Class distribution: {np.bincount(y)}")
         
         # Prepare data
         X_train, X_test, y_train, y_test = self.prepare_data(X, y)
         
-        # Preprocess features
-        X_train_processed, X_test_processed = self.preprocess_features(X_train, X_test)
+        # Check if we have enough data
+        if len(X_train) < 3:
+            self.logger.error(f"Insufficient training data: {len(X_train)} samples. Need at least 3 samples.")
+            raise ValueError(f"Insufficient training data: {len(X_train)} samples. Need at least 3 samples for training.")
         
-        # Handle class imbalance
-        X_train_balanced, y_train_balanced = self.handle_class_imbalance(X_train_processed, y_train)
+        # Preprocess features
+        X_train_processed, X_test_processed = self.preprocess_features(
+            X_train, X_test, feature_selection=len(X_train.columns) > 10
+        )
+        
+        # Handle class imbalance only if we have multiple classes and enough samples
+        if len(np.unique(y_train)) > 1 and len(y_train) > 10:
+            X_train_balanced, y_train_balanced = self.handle_class_imbalance(X_train_processed, y_train)
+        else:
+            X_train_balanced, y_train_balanced = X_train_processed, y_train
+            self.logger.info("Skipping class balancing due to small dataset or single class")
         
         # Train models based on selection
         training_results = {}
         
         if self.model_name == 'ensemble':
-            # Train multiple models for ensemble
-            self._train_ensemble(X_train_balanced, y_train_balanced)
+            # For small datasets, train fewer models
+            if len(X_train_balanced) < 20:
+                self.logger.info("Small dataset detected. Training simplified ensemble.")
+                self._train_simple_ensemble(X_train_balanced, y_train_balanced)
+            else:
+                self._train_ensemble(X_train_balanced, y_train_balanced)
+            
             if validate and X_test_processed is not None:
                 training_results = self._validate_ensemble(X_test_processed, y_test)
+            else:
+                training_results = {'message': 'Training completed without validation (insufficient test data)'}
         else:
             # Train single model
             self._train_single_model(X_train_balanced, y_train_balanced, self.model_name)
             if validate and X_test_processed is not None:
                 training_results = self._validate_single_model(X_test_processed, y_test, self.model_name)
+            else:
+                training_results = {'message': 'Training completed without validation (insufficient test data)'}
         
         # Train anomaly detector for unsupervised detection
         self.logger.info("Training anomaly detector...")
@@ -300,6 +338,34 @@ class RansomwareMLDetector:
                 self.logger.info(f"Successfully trained {model_name}")
             except Exception as e:
                 self.logger.error(f"Failed to train {model_name}: {e}")
+    def _train_simple_ensemble(self, X_train: pd.DataFrame, y_train: np.ndarray):
+        """Train a simplified ensemble for small datasets"""
+        self.logger.info("Training simplified ensemble for small dataset...")
+        
+        # Only train the most robust models for small datasets
+        simple_models = ['random_forest', 'logistic_regression']
+        
+        for model_name in simple_models:
+            if model_name in self.model_configs:
+                try:
+                    # Use simpler parameters for small datasets
+                    config_info = self.model_configs[model_name].copy()
+                    if model_name == 'random_forest':
+                        # Reduce complexity for small datasets
+                        config_info['params']['n_estimators'] = min(50, len(X_train))
+                        config_info['params']['max_depth'] = min(5, len(X_train.columns))
+                        config_info['params']['min_samples_split'] = max(2, len(X_train) // 10)
+                    
+                    model_class = config_info['model']
+                    params = config_info['params']
+                    
+                    model = model_class(**params)
+                    model.fit(X_train, y_train)
+                    self.models[model_name] = model
+                    
+                    self.logger.info(f"Successfully trained {model_name} (simplified)")
+                except Exception as e:
+                    self.logger.error(f"Failed to train {model_name}: {e}")
     
     def _validate_single_model(self, X_test: pd.DataFrame, y_test: np.ndarray, 
                              model_name: str) -> Dict[str, Any]:
