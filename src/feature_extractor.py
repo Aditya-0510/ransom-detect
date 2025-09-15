@@ -614,49 +614,102 @@ class RansomwareFeatureExtractor:
         return features_list
 
 def create_synthetic_labels(features_df: pd.DataFrame, 
-                          alert_threshold: float = 5.0) -> np.ndarray:
-    """Create synthetic labels for training (in real scenario, use expert annotations)"""
-    # This is a simplified approach for demonstration
-    # In reality, you would need expert-labeled data
+                          alert_threshold: float = 3.0,
+                          ensure_both_classes: bool = True) -> np.ndarray:
+    """Create synthetic labels for training with better class distribution"""
     
     labels = []
+    scores = []
+    
     for _, row in features_df.iterrows():
         score = 0
         
-        # High alert score
+        # High alert score (weighted more heavily)
         if row.get('total_alert_score', 0) >= alert_threshold:
-            score += 3
-        
-        # Suspicious file patterns
-        if row.get('encrypted_files_created', 0) > 5:
+            score += 4
+        elif row.get('total_alert_score', 0) > 0:
             score += 2
         
-        if row.get('suspicious_extension_ratio', 0) > 0.3:
+        # Suspicious file patterns
+        if row.get('encrypted_files_created', 0) > 3:
+            score += 3
+        elif row.get('encrypted_files_created', 0) > 0:
+            score += 1
+        
+        if row.get('suspicious_extension_ratio', 0) > 0.2:
             score += 2
         
         # Rapid file operations
-        if row.get('rapid_file_operations', 0) > 10:
+        if row.get('rapid_file_operations', 0) > 5:
             score += 2
         
         # Process indicators
         if row.get('suspicious_processes', 0) > 0:
-            score += 2
-        
-        if row.get('suspicious_commands', 0) > 0:
             score += 3
         
+        if row.get('suspicious_commands', 0) > 0:
+            score += 4
+        
         # System resource usage
-        if row.get('max_disk_write_rate', 0) > 1000000:  # High disk writes
+        if row.get('max_disk_write_rate', 0) > 500000:  # High disk writes
             score += 1
         
         # Mass encryption pattern
         if row.get('potential_mass_encryption', 0) > 0:
-            score += 4
+            score += 5
         
-        # Label as ransomware if score is high enough
-        labels.append(1 if score >= 6 else 0)
+        # High file activity
+        if row.get('total_file_events', 0) > 50:
+            score += 1
+        
+        # Process-file correlation
+        if row.get('process_file_correlation', 0) > 0.7:
+            score += 2
+        
+        scores.append(score)
     
-    return np.array(labels)
+    # Determine threshold for binary classification
+    scores = np.array(scores)
+    
+    if ensure_both_classes and len(features_df) > 1:
+        # Ensure we have both classes by using a threshold that creates a reasonable split
+        sorted_scores = np.sort(scores)
+        
+        # Try to create roughly 20-30% positive samples
+        threshold_idx = int(len(sorted_scores) * 0.75)  # Top 25% as positive
+        threshold = sorted_scores[threshold_idx]
+        
+        # Ensure threshold is at least 3
+        threshold = max(3, threshold)
+        
+        # If all scores are the same, randomly assign some as positive
+        if np.all(scores == scores[0]):
+            n_positive = max(1, len(scores) // 4)  # At least 1, up to 25%
+            positive_indices = np.random.choice(len(scores), n_positive, replace=False)
+            labels = np.zeros(len(scores), dtype=int)
+            labels[positive_indices] = 1
+        else:
+            labels = (scores >= threshold).astype(int)
+        
+        # Ensure we have at least one positive and one negative sample
+        if np.sum(labels) == 0:
+            # If no positives, make the highest score positive
+            max_idx = np.argmax(scores)
+            labels[max_idx] = 1
+        elif np.sum(labels) == len(labels):
+            # If all positives, make the lowest score negative
+            min_idx = np.argmin(scores)
+            labels[min_idx] = 0
+    else:
+        # Use fixed threshold
+        labels = (scores >= 4).astype(int)
+    
+    labels = np.array(labels)
+    
+    print(f"Generated labels: {np.sum(labels)} positive out of {len(labels)} total")
+    print(f"Class distribution: {dict(zip(*np.unique(labels, return_counts=True)))}")
+    
+    return labels
 
 if __name__ == "__main__":
     # Test feature extraction
