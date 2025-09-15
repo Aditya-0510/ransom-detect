@@ -1,5 +1,3 @@
-# src/main_detector.py - Main ransomware detection system orchestrator
-
 import time
 import json
 import logging

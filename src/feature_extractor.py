@@ -1,5 +1,3 @@
-# src/feature_extractor.py - Feature extraction from collected system data
-
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta

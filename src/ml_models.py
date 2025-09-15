@@ -1,5 +1,3 @@
-# src/ml_models.py - Machine learning models for ransomware detection
-
 import numpy as np
 import pandas as pd
 import pickle

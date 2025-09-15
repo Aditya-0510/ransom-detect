@@ -1,5 +1,3 @@
-# integrated_app.py - Complete integrated web interface
-
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, emit
 import json
@@ -24,7 +22,7 @@ try:
     WEB_PORT = config.WEB_CONFIG['port']
     WEB_DEBUG = config.WEB_CONFIG['debug']
     SECRET_KEY = config.WEB_CONFIG['secret_key']
-    print("✓ Config loaded successfully")
+    print("Config loaded successfully")
 except ImportError as e:
     print(f"Warning: Could not import config: {e}")
     WEB_HOST = '127.0.0.1'
@@ -1021,8 +1019,8 @@ def create_templates():
                     const detected = data.ransomware_detected || false;
                     
                     const message = detected ? 
-                        `⚠️ THREAT DETECTED! Probability: ${(probability * 100).toFixed(1)}%` :
-                        `✅ No threats detected. Max probability: ${(probability * 100).toFixed(1)}%`;
+                        `THREAT DETECTED! Probability: ${(probability * 100).toFixed(1)}%` :
+                        `No threats detected. Max probability: ${(probability * 100).toFixed(1)}%`;
                     
                     alert(message);
                     

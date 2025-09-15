@@ -1,5 +1,3 @@
-# src/data_collector.py - System monitoring and data collection
-
 import os
 import time
 import json

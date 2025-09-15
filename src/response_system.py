@@ -1,5 +1,3 @@
-# src/response_system.py - Automated response and mitigation system
-
 import os
 import json
 import time
