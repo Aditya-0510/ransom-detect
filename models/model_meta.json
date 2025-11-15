@@ -1,0 +1,22 @@
+{
+  "threshold_p_benign": 1.0,
+  "roc_auc": 0.999304164492751,
+  "pr_auc": 0.998429768037889,
+  "features": [
+    "Machine",
+    "DebugSize",
+    "DebugRVA",
+    "MajorImageVersion",
+    "MajorOSVersion",
+    "ExportRVA",
+    "ExportSize",
+    "IatVRA",
+    "MajorLinkerVersion",
+    "MinorLinkerVersion",
+    "NumberOfSections",
+    "SizeOfStackReserve",
+    "DllCharacteristics",
+    "ResourceSize",
+    "BitcoinAddresses"
+  ]
+}
