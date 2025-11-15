@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Static Ransomware Detector</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { background:#0f0f0f; color:#fff; font-family:Inter,Arial; }
+    .wrap { width:900px; margin:40px auto; }
+    .card { background:#1c1c1c; padding:20px; border-radius:10px; margin-bottom:20px; }
+    h1 { color:#22d3ee; }
+    input { margin:10px 0; }
+    .btn { background:#0ea5e9; padding:10px 15px; border:none; border-radius:8px; color:white; cursor:pointer; }
+    .btn:hover { background:#0284c7; }
+    .ok { color:#22c55e; font-weight:bold; }
+    .warn { color:#f59e0b; font-weight:bold; }
+    .bad { color:#ef4444; font-weight:bold; }
+    li { border-bottom:1px solid #333; padding:5px 0; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media(max-width:700px){ .grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1>🔐 Ransomware Detector</h1>
+
+  <div class="card">
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".exe,.dll" required />
+      <button class="btn" type="submit">Scan File</button>
+    </form>
+    {% if error %}
+      <p class="bad">⚠ {{ error }}</p>
+    {% endif %}
+  </div>
+
+  {% if filename %}
+  <div class="card">
+    <h2>📁 Uploaded File</h2>
+    <p><strong>{{ filename }}</strong></p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>🛡 Scan Result</h2>
+      <p><strong>Result:</strong>
+        {% if 'Benign' in result %}
+           <span class="ok">{{ result }}</span>
+        {% else %}
+           <span class="bad">{{ result }}</span>
+        {% endif %}
+      </p>
+
+      <p><strong>Benign Probability:</strong> {{ probability }}</p>
+      <p><strong>Risk Level:</strong>
+        {% if risk == "Low Risk" %}
+          <span class="ok">{{ risk }}</span>
+        {% elif risk == "Medium Risk" %}
+          <span class="warn">{{ risk }}</span>
+        {% else %}
+          <span class="bad">{{ risk }}</span>
+        {% endif %}
+      </p>
+
+      <canvas id="gauge" height="160"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>📈 Top Features</h2>
+      <canvas id="bar" height="220"></canvas>
+    </div>
+
+  </div>
+  {% if pdf_file %}
+<div class="card">
+  <h2>📄 Download PDF Report</h2>
+  <a class="btn" href="/download/{{ pdf_file }}">Download Report</a>
+</div>
+{% endif %}
+
+  <div class="card">
+    <h2>📊 Extracted Features</h2>
+    <ul>
+      {% for k, v in features.items() %}
+        <li><strong>{{ k }}</strong>: {{ v }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+    
+{% if filename %}
+const prob = {{ probability }};
+
+// Gauge
+new Chart(document.getElementById('gauge'), {
+  type: 'doughnut',
+  data: { labels: ["Benign", "Malicious"], datasets: [{ data: [prob, 1-prob] }] },
+  options: { rotation: -90, circumference: 180, cutout: "70%" }
+});
+
+// Feature importance bar
+new Chart(document.getElementById('bar'), {
+  type: 'bar',
+  data: {
+    labels: {{ chart_labels|tojson }},
+    datasets: [{ label:"Importance", data: {{ chart_values|tojson }} }]
+  },
+  options: { indexAxis:'y', plugins:{ legend:{ display:false } } }
+});
+{% endif %}
+</script>
+
+</body>
+</html>
