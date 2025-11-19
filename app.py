@@ -13,10 +13,8 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Load model
 model = joblib.load("models/static_pe_model.joblib")
 
-# Load feature importance CSV (for charts)
 importances_df = pd.read_csv("models/static_feature_importance.csv").head(10)
 @app.route("/download/<path:filename>")
 def download(filename):

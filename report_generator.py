@@ -8,24 +8,20 @@ def generate_pdf_report(output_path, filename, result, probability, risk, featur
     styles = getSampleStyleSheet()
     story = []
 
-    # Title
     title = f"<para align='center'><b><font size=16>Static Ransomware Scan Report</font></b></para>"
     story.append(Paragraph(title, styles['Title']))
     story.append(Spacer(1, 12))
 
-    # File Info
     story.append(Paragraph("<b>File Information</b>", styles['Heading2']))
     story.append(Paragraph(f"File Name: {filename}", styles['Normal']))
     story.append(Spacer(1, 6))
 
-    # Prediction
     story.append(Paragraph("<b>Scan Result</b>", styles['Heading2']))
     story.append(Paragraph(f"Prediction: {result}", styles['Normal']))
     story.append(Paragraph(f"Benign Probability: {probability}", styles['Normal']))
     story.append(Paragraph(f"Risk Level: {risk}", styles['Normal']))
     story.append(Spacer(1, 12))
 
-    # Extracted Features
     story.append(Paragraph("<b>Extracted Static Features</b>", styles['Heading2']))
 
     feature_table_data = [["Feature", "Value"]]
@@ -42,7 +38,6 @@ def generate_pdf_report(output_path, filename, result, probability, risk, featur
     story.append(feature_table)
     story.append(Spacer(1, 20))
 
-    # Top Feature Importances
     story.append(Paragraph("<b>Top Feature Importances</b>", styles['Heading2']))
 
     imp_table_data = [["Feature", "Importance"]]
@@ -62,7 +57,6 @@ def generate_pdf_report(output_path, filename, result, probability, risk, featur
 
     story.append(imp_table)
 
-    # Save final PDF
     pdf = SimpleDocTemplate(output_path, pagesize=letter)
     pdf.build(story)
     return output_path

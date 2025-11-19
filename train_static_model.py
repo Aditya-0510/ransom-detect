@@ -1,4 +1,3 @@
-# train_static_model.py
 import os, json, joblib, pandas as pd, numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
@@ -11,10 +10,8 @@ from model_utils import hex_to_int_frame, listlen_frame
 DATA = "data/malware_dataset.csv"
 df = pd.read_csv(DATA)
 
-# Target column
 y = (df["Class"].astype(str).str.lower() == "benign").astype(int)
 
-# ---- STATIC ONLY COLUMNS (matches your dataset) ----
 STATIC_COLS = [
     "file_extension","EntryPoint","PEType","MachineType","magic_number",
     "bytes_on_last_page","pages_in_file","relocations","size_of_header",
@@ -33,12 +30,8 @@ STATIC_COLS = [
     "rdata_PointerToLineNumbers","rdata_Characteristics",
 ]
 
-# Reduce the dataset to static-only columns
 X = df[STATIC_COLS].copy()
 
-# -------------------------------
-# 1) FIX CORRUPTED VERSION VALUES
-# -------------------------------
 def clean_version(v):
     try:
         return float(v)
@@ -51,9 +44,6 @@ if "OperatingSystemVersion" in X.columns:
 if "ImageVersion" in X.columns:
     X["ImageVersion"] = X["ImageVersion"].apply(clean_version)
 
-# --------------------------------------
-# 2) Convert hex-like strings → integers
-# --------------------------------------
 def hex_to_int_frame(Xdf: pd.DataFrame):
     Xc = Xdf.copy()
     for c in Xc.columns:
@@ -64,9 +54,6 @@ def hex_to_int_frame(Xdf: pd.DataFrame):
         )
     return Xc
 
-# ------------------------------------------
-# 3) Convert "['FLAG1','FLAG2']" → integer count
-# ------------------------------------------
 def listlen_frame(Xdf: pd.DataFrame):
     Xc = Xdf.copy()
     for c in Xc.columns:
@@ -78,7 +65,6 @@ def listlen_frame(Xdf: pd.DataFrame):
         Xc.loc[~is_list, c] = np.nan
     return Xc
 
-# classify columns by type
 LIST_LIKE = ["DllCharacteristics","text_Characteristics","rdata_Characteristics"]
 
 CATEGORICAL = [
@@ -90,9 +76,7 @@ NUMERIC_VERSION = ["OperatingSystemVersion","ImageVersion"]
 
 HEX_LIKE = [c for c in STATIC_COLS if c not in LIST_LIKE + CATEGORICAL + NUMERIC_VERSION]
 
-# -------------------------
-# TRANSFORMER PIPELINE
-# -------------------------
+
 pre = ColumnTransformer(
     transformers=[
         ("hex", FunctionTransformer(hex_to_int_frame), HEX_LIKE),
@@ -103,9 +87,6 @@ pre = ColumnTransformer(
     remainder="drop"
 )
 
-# -------------------------
-# XGBoost CLASSIFIER
-# -------------------------
 clf = XGBClassifier(
     n_estimators=500,
     max_depth=10,
@@ -123,9 +104,6 @@ pipe = Pipeline([
     ("clf", clf)
 ])
 
-# -------------------------
-# Train/test split
-# -------------------------
 X_tr, X_te, y_tr, y_te = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -133,9 +111,6 @@ X_tr, X_te, y_tr, y_te = train_test_split(
 print("\nTraining model...")
 pipe.fit(X_tr, y_tr)
 
-# -------------------------
-# Evaluation
-# -------------------------
 proba = pipe.predict_proba(X_te)[:,1]
 pred  = (proba >= 0.5).astype(int)
 
@@ -143,42 +118,30 @@ print("\n=== CLASSIFICATION REPORT ===")
 print(classification_report(y_te, pred))
 print("ROC-AUC:", roc_auc_score(y_te, proba))
 
-# -------------------------
-# Save model + meta info
-# -------------------------
 os.makedirs("models", exist_ok=True)
 joblib.dump(pipe, "models/static_pe_model.joblib")
 
-# ----------- BUILD FEATURE NAMES MANUALLY -------------
 feature_names = []
 
-# HEX transformer outputs same columns as HEX_LIKE
 feature_names += HEX_LIKE
 
-# LIST-LIKE transformer outputs same columns
 feature_names += LIST_LIKE
 
-# Categorical one-hot encoder generates new names
 ohe = pipe.named_steps["pre"].named_transformers_["cat"]
 cat_new = ohe.get_feature_names_out(CATEGORICAL).tolist()
 feature_names += cat_new
 
-# Version columns passthrough
 feature_names += NUMERIC_VERSION
 
-# Get XGBoost importances
 importances = pipe.named_steps["clf"].feature_importances_
 
-# Build sorted dataframe
 imp = pd.DataFrame({
     "feature": feature_names,
     "importance": importances
 }).sort_values("importance", ascending=False)
 
-# Save to CSV
 imp.to_csv("models/static_feature_importance.csv", index=False)
 
-# Save metadata
 with open("models/static_meta.json", "w") as f:
     json.dump({"features_expected": STATIC_COLS}, f, indent=2)
 

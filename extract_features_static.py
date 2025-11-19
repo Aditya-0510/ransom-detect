@@ -1,4 +1,3 @@
-# extract_features_static.py
 import pefile
 
 # Mapping dictionaries
