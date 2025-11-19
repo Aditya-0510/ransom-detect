@@ -1,9 +1,6 @@
-# model_utils.py
-
 import pandas as pd
 import numpy as np
 
-# Converts hex strings like "0xABC" to integers
 def hex_to_int_frame(Xdf: pd.DataFrame):
     Xc = Xdf.copy()
     for c in Xc.columns:
@@ -14,7 +11,6 @@ def hex_to_int_frame(Xdf: pd.DataFrame):
         )
     return Xc
 
-# Converts list-like strings → count
 def listlen_frame(Xdf: pd.DataFrame):
     Xc = Xdf.copy()
     for c in Xc.columns:
